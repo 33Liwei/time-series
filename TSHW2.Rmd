@@ -1,0 +1,205 @@
+---
+title: "TSHW2"
+author: "g11470105"
+date: "2023/4/15"
+output: word_document
+---
+
+###################################
+
+# 1.
+
+## (a)
+
+選擇S6資料集並保留10筆資料用來做預測
+
+## (b)
+
+原始S6資料的ACF & PACF如下圖。
+
+```{r,echo = FALSE}
+knitr::include_graphics("./s6原始acf.png")
+
+```
+
+
+為不平穩序列
+
+## (c)
+
+(b)中原始時間圖為不平穩，因此要做差分。
+
+對此資料集做一階差分後如下圖
+
+
+```{r,echo = FALSE}
+knitr::include_graphics("./s6一階差分.png")
+
+
+```
+
+可看出為季節性序列，原本想再加上季節性差分的圖，但不知為何無法點選，所以在develop models點選Fit Factored ARIMA Model來做季節性差分圖。(每4為一次)
+
+下圖為做一階差分和一階季節性差分的圖
+
+```{r,echo = FALSE}
+knitr::include_graphics("./s6差分和季節性差分.png")
+
+
+```
+ 
+
+看ACF，可看出 MA 在1之後cut off。
+
+因此做$ARIMA(0,1,1) \times (0,1,0)_4$
+
+下圖為 $ARIMA(0,1,1) \times (0,1,0)_4$ 的ACF和PACF
+
+```{r,echo = FALSE}
+knitr::include_graphics("./s6 調整ACF.png")
+
+
+```
+
+可看出皆平穩
+
+```{r,echo = FALSE}
+knitr::include_graphics("./s6unitroot.png")
+
+
+```
+
+根據上圖， UnitRoot Tests顯著，White noise 不顯著為常態。
+
+
+## (d)
+
+
+```{r,echo = FALSE}
+knitr::include_graphics("./s6 估計.png")
+
+
+```
+
+$(1-B)B^{4}z_t = (1-0.36917B)B^{4}a_t$
+
+$\hat{\sigma}^2 = 5.20893$
+
+## (e)
+
+lag1 t p-value 為 0.0007 ，小於0.05，模型合適。
+
+## (f)
+
+White noise不顯著，模型合適。
+
+## (g)
+
+```{r,echo = FALSE}
+
+knitr::include_graphics("./s6 stat.png")
+
+```
+
+根據上圖，Mean Square Error為1.82907、Root Mean Square Error為1.95680、Mean Absolute Percent Error為0.89064、Mean Absolute Error為1.90149、R-Square為0.96。
+
+
+##################################################
+2.
+
+# 1.
+
+## (a)
+
+選擇S1資料集並保留10筆資料用來做預測
+
+## (b)
+
+原始S1資料的ACF & PACF如下圖。
+
+```{r,echo = FALSE}
+knitr::include_graphics("./s1原始acf.png")
+
+```
+
+
+為季節性不平穩序列
+
+## (c)
+
+(b)中原始時間圖為不平穩，因此要做差分。
+
+對此資料集做一階差分後如下圖
+
+
+```{r,echo = FALSE}
+knitr::include_graphics("./s1一階差分.png")
+
+
+```
+
+可看出為季節性序列，使用Fit Factored ARIMA Model來做季節性差分圖。(每12為一次)
+
+下圖為做一階差分和一階季節性差分的圖
+
+```{r,echo = FALSE}
+knitr::include_graphics("./s1差分和季節性差分.png")
+
+
+```
+ 
+
+看ACF，可看出 MA 在1、12之後cut off。
+
+因此做$ARIMA(0,1,1) \times (0,1,1)_{12}$
+
+下圖為 $ARIMA(0,1,1) \times (0,1,1)_{12}$ 的ACF和PACF
+
+```{r,echo = FALSE}
+knitr::include_graphics("./s1調整acf.png")
+
+
+```
+
+可看出皆平穩
+
+```{r,echo = FALSE}
+knitr::include_graphics("./s1unitroot.png")
+
+
+```
+
+根據上圖， UnitRoot Tests顯著，White noise 不顯著為常態。
+
+
+## (d)
+
+
+```{r,echo = FALSE}
+knitr::include_graphics("./s1估計.png")
+
+
+```
+
+
+$(1-B)(1-B^{12})z_t = (1-0.36917B)(1-0.15171B^{12})a_t$
+
+$\hat{\sigma}^2 = 5.57467$
+
+## (e)
+
+lag1 t p-value 為 <0.0001 、 lag2 t p-value 為 0.0835 ，皆小於0.05，模型合適。
+
+## (f)
+
+White noise不顯著，模型合適。
+
+## (g)
+
+```{r,echo = FALSE}
+
+knitr::include_graphics("./s1stat.png")
+
+```
+
+根據上圖，Mean Square Error為2.72300、Root Mean Square Error為1.65015、Mean Absolute Percent Error為1.38342、Mean Absolute Error為1.44214、R-Square為0.914。
